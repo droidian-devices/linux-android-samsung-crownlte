@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+
+include /usr/share/linux-packaging-snippets/kernel-snippet.mk
+
+%:
+	dh $@
+
+path-override-prepare:
+	mkdir -p debian/path-override
+	ln -sf /opt/android/prebuilts/python/2.7.5/bin/python debian/path-override/python
+	wget https://raw.githubusercontent.com/LineageOS/android_system_tools_mkbootimg/lineage-19.1/mkbootimg.py -O /usr/bin/mkbootimg
+	chmod 755 /usr/bin/mkbootimg
+	sed -i 's/boot/BOOT/g' /usr/share/linux-packaging-snippets/flash-bootimage-template-legacy-extend.in
+
+out/KERNEL_OBJ/boot.img: out/KERNEL_OBJ/initramfs.gz out/KERNEL_OBJ/target-dtb
+	if [ "$(KERNEL_BOOTIMAGE_VERSION)" -eq "2" ]; then \
+		MKBOOTIMG_KERNEL_ARGS="--kernel $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/$(KERNEL_BUILD_TARGET) --dtb $(KERNEL_OUT)/dtb-merged --dtb_offset $(KERNEL_BOOTIMAGE_DTB_OFFSET)"; \
+	else \
+		MKBOOTIMG_KERNEL_ARGS="--kernel $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/$(KERNEL_BUILD_TARGET) --dt /buildd/sources/debian/dt.img"; \
+	fi; \
+	if [ -n "$(KERNEL_BOOTIMAGE_PATCH_LEVEL)" ]; then \
+			MKBOOTIMG_SPL_ARGS="--os_patch_level $(KERNEL_BOOTIMAGE_PATCH_LEVEL)"; \
+	else \
+			MKBOOTIMG_SPL_ARGS=""; \
+	fi; \
+	eval mkbootimg \
+		$${MKBOOTIMG_KERNEL_ARGS} \
+		--ramdisk out/KERNEL_OBJ/initramfs.gz \
+		--base $(KERNEL_BOOTIMAGE_BASE_OFFSET) \
+		--kernel_offset $(KERNEL_BOOTIMAGE_KERNEL_OFFSET) \
+		--ramdisk_offset $(KERNEL_BOOTIMAGE_INITRAMFS_OFFSET) \
+		--second_offset $(KERNEL_BOOTIMAGE_SECONDIMAGE_OFFSET) \
+		--tags_offset $(KERNEL_BOOTIMAGE_TAGS_OFFSET) \
+		--pagesize $(KERNEL_BOOTIMAGE_PAGE_SIZE) \
+		--cmdline "\"$(KERNEL_BOOTIMAGE_CMDLINE)\"" \
+		--header_version $(KERNEL_BOOTIMAGE_VERSION) \
+		$${MKBOOTIMG_SPL_ARGS} \
+		-o $@
+
+out/KERNEL_OBJ/initramfs.gz:
+	cp /buildd/sources/debian/initrd.img-halium-generic $@
+
