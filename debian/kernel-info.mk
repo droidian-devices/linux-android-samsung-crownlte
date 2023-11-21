@@ -19,16 +19,16 @@ DEVICE_VENDOR = samsung
 
 # Slug for the device model. Like above.
 #DEVICE_MODEL = starlte
-DEVICE_MODEL = star2lte
-#DEVICE_MODEL = crownlte
+#DEVICE_MODEL = star2lte
+DEVICE_MODEL = crownlte
 
 # Slug for the device platform. If unsure, keep this commented.
 #DEVICE_PLATFORM = platform
 
 # Marketing-friendly full-name. This will be used inside package descriptions
 #DEVICE_FULL_NAME = Samsung Galaxy S9
-DEVICE_FULL_NAME = Samsung Galaxy S9+
-#DEVICE_FULL_NAME = Samsung Galaxy Note 9
+#DEVICE_FULL_NAME = Samsung Galaxy S9+
+DEVICE_FULL_NAME = Samsung Galaxy Note 9
 
 # Whether to use configuration fragments to augment the kernel configuration.
 # If unsure, keep this to 0.
@@ -45,8 +45,8 @@ KERNEL_CONFIG_USE_DIFFCONFIG = 0
 
 # Defconfig to use
 #KERNEL_DEFCONFIG = exynos9810-starlte_defconfig
-KERNEL_DEFCONFIG = exynos9810-star2lte_defconfig
-#KERNEL_DEFCONFIG = exynos9810-crownlte_defconfig
+#KERNEL_DEFCONFIG = exynos9810-star2lte_defconfig
+KERNEL_DEFCONFIG = exynos9810-crownlte_defconfig
 
 # Whether to include DTBs with the image. Use 0 (no) or 1.
 KERNEL_IMAGE_WITH_DTB = 1
@@ -80,8 +80,8 @@ KERNEL_IMAGE_WITH_DTB_OVERLAY_IN_KERNEL = 0
 # Path to the prebuilt DT image. should only be defined on header version 1 and below.
 # mostly used on samsung devices. default is to leave it undefined
 #KERNEL_PREBUILT_DT = debian/dt-starlte.img
-KERNEL_PREBUILT_DT = debian/dt-star2lte.img
-#KERNEL_PREBUILT_DT = debian/dt-crownlte.img
+#KERNEL_PREBUILT_DT = debian/dt-star2lte.img
+KERNEL_PREBUILT_DT = debian/dt-crownlte.img
 
 # Various other settings that will be passed straight to mkbootimg
 KERNEL_BOOTIMAGE_PAGE_SIZE = 2048
@@ -152,8 +152,8 @@ FLASH_INFO_MANUFACTURER = samsung
 # Android property. If you don't want to specify this, leave it undefined,
 # FLASH_INFO_CPU will be checked instead.
 #FLASH_INFO_MODEL = SM-G960F
-FLASH_INFO_MODEL = SM-G965F
-#FLASH_INFO_MODEL = SM-N960F
+#FLASH_INFO_MODEL = SM-G965F
+FLASH_INFO_MODEL = SM-N960F
 
 # Device CPU. This will be grepped against /proc/cpuinfo to check if
 # we're running on the specific device. Note this is a last-resort
